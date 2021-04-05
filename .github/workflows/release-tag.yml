@@ -27,7 +27,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        ref: master
+        ref: main
         repository: jeometry-org/jeometry
 
 #### MAVEN REPOSITORY CACHE ####
@@ -51,7 +51,7 @@ jobs:
         git rm -rf .github
         mvn -B versions:set -DnewVersion="${VERSION}" -DgenerateBackupPoms=false
         git commit -a -m "Version ${VERSION}"
-        git fetch --unshallow origin master
+        git fetch --unshallow origin main
         git tag -f "${VERSION}"
         git push -f https://github.com/${{github.repository}} ${VERSION}
 
