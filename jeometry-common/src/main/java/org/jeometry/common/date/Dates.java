@@ -449,30 +449,9 @@ public interface Dates {
 
   static Timestamp getTimestamp(final String dateString) {
     if (dateString != null) {
-      final Matcher matcher = DATE_TIME_NANOS_PATTERN.matcher(dateString);
-      if (matcher.find()) {
-        final int year = getInteger(matcher, 1, 0);
-        final int month = getInteger(matcher, 2, 0) - 1;
-        final int day = getInteger(matcher, 3, 0);
-        final int hour = getInteger(matcher, 4, 0);
-        final int minute = getInteger(matcher, 5, 0);
-        final int second = getInteger(matcher, 6, 0);
-        int nanoSecond = getInteger(matcher, 7, 0);
-        final Calendar calendar = new GregorianCalendar(year, month, day, hour, minute, second);
-        final long timeInMillis = calendar.getTimeInMillis();
-        final Timestamp time = new Timestamp(timeInMillis);
-        if (nanoSecond != 0) {
-          BigDecimal number = new BigDecimal("0." + nanoSecond);
-          number = number.multiply(BigDecimal.valueOf(1000000000))
-            .setScale(0, RoundingMode.HALF_DOWN);
-          nanoSecond = number.intValue();
-          time.setNanos(nanoSecond);
-        }
-        return time;
-      }
-      throw new IllegalArgumentException("Value '" + dateString
-        + "' is not a valid timestamp, expecting 'yyyy-MM-dd HH:mm:ss.SSS'.");
-    } else {
+      final Instant instant = Instant.parse(dateString);
+      return Timestamp.from(instant);
+   } else {
       return null;
     }
   }
