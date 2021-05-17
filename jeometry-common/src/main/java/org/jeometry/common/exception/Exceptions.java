@@ -17,11 +17,11 @@ public interface Exceptions {
     return false;
   }
 
-  static boolean isException(Throwable e, final Class<? extends Throwable> clazz) {
+  static boolean isException(final Throwable e, final Class<? extends Throwable> clazz) {
     while (e != null) {
       if (e instanceof WrappedException) {
         final WrappedException wrappedException = (WrappedException)e;
-        e = wrappedException.getCause();
+        return wrappedException.isException(clazz);
       } else if (clazz.isAssignableFrom(e.getClass())) {
         return true;
       } else {
