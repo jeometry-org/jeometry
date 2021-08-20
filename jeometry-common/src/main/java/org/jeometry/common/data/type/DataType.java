@@ -96,6 +96,15 @@ public interface DataType {
     return true;
   }
 
+  default boolean isValid(final Object value) {
+    try {
+      toObject(value);
+      return true;
+    } catch (final Exception e) {
+      return false;
+    }
+  }
+
   @SuppressWarnings("unchecked")
   default <V> V toObject(final Object value) {
     return (V)value;
