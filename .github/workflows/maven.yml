@@ -35,5 +35,5 @@ jobs:
 
 #### Build jeometry ####
     - name: Build jeometry
-      run: mvn install
+      run: mvn -B install
       working-directory: ./jeometry
