@@ -424,7 +424,6 @@ public class Angle {
         double decimalDegrees = 0;
         if (parts.length > 0) {
           decimalDegrees = Double.parseDouble(parts[0]);
-          System.out.println(decimalDegrees);
           if (decimalDegrees < 0) {
             negative = true;
             decimalDegrees = -decimalDegrees;
