@@ -279,7 +279,12 @@ public final class DataTypes {
     } else {
       final DataType type = NAME_TYPE_MAP.get(name.toLowerCase());
       if (type == null) {
-        return DataTypes.OBJECT;
+        if (name.endsWith("[]")) {
+          final DataType elementType = getDataType(name.substring(0, name.length() - 2));
+          return new ListDataType(List.class, elementType);
+        } else {
+          return DataTypes.OBJECT;
+        }
       } else {
         return type;
       }
