@@ -363,7 +363,7 @@
     <repository>
       <id>github</id>
       <name>Github Packages</name>
-      <url>https://maven.pkg.github.com/jeometry-org/jeometry</url>
+      <url>https://maven.pkg.github.com/${gitHubRepo}</url>
     </repository>
   </distributionManagement>
 
@@ -374,5 +374,6 @@
     <gpg.skip>true</gpg.skip>
     <github.global.server>github</github.global.server>
     <skipTests>true</skipTests>
+    <gitHubRepo>jeometry-org/jeometry</gitHubRepo>
   </properties>
 </project>
