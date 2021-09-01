@@ -56,8 +56,6 @@ jobs:
           REF=${TAG}
           OTHER_REF=0.GBA-${TAG}
         else
-          if [[ "${BRANCH}" == "main" ]]; then
-          fi 
           REF=${BRANCH}
           OTHER_REF=$REF
         fi
