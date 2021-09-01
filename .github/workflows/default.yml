@@ -67,7 +67,6 @@ jobs:
       uses: actions/checkout@v2
       with:
         ref: ${{env.OTHER_REF}}
-        repository: ${{env.JEOMETRY_REPO}}
         path: jeometry
 
 #### MAVEN REPOSITORY CACHE ####
