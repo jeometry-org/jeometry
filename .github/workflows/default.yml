@@ -80,7 +80,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
 
-#### Build jeometry ####
-    - name: Build jeometry
+#### Build & Deploy ####
+    - name: Build & Deploy
       working-directory: ./jeometry
-      run: mvn -B install -DskipTests
+      run: mvn -B deploy -DskipTests
