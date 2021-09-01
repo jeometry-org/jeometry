@@ -82,4 +82,6 @@ jobs:
 #### Build & Deploy ####
     - name: Build & Deploy
       working-directory: ./jeometry
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: mvn -B deploy -DskipTests
