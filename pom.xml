@@ -147,7 +147,8 @@
         <configuration>
           <failOnError>false</failOnError>
           <quiet>true</quiet>
-          <additionalparam>-Xdoclint:none</additionalparam>
+          <doclint>none</doclint>
+          <quiet>true</quiet>
           <skip>${maven.javadoc.skip}</skip>
         </configuration>
         <executions>
@@ -303,8 +304,8 @@
         <configuration>
           <detectLinks>true</detectLinks>
           <detectJavaApiLink>true</detectJavaApiLink>
+          <doclint>none</doclint>
           <quiet>true</quiet>
-          <additionalparam>-Xdoclint:none</additionalparam>
           <sourceFileExcludes>module-info.java</sourceFileExcludes>
           <failOnError>false</failOnError>
           <failOnWarnings>false</failOnWarnings>
