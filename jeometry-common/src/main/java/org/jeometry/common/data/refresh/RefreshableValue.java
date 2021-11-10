@@ -7,6 +7,21 @@ public interface RefreshableValue<V> extends Refreshable {
     return new SupplierRefreshableValue<T>(supplier);
   }
 
+  void clearValue();
+
   V getValue();
 
+  @Override
+  default void refresh() {
+    refreshValue();
+  }
+
+  @Override
+  default void refreshIfNeeded() {
+    refreshValueIfNeeded();
+  }
+
+  V refreshValue();
+
+  V refreshValueIfNeeded();
 }

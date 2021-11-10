@@ -28,6 +28,26 @@ import org.jeometry.common.data.type.DataTypes;
 import org.jeometry.common.logging.Logs;
 
 public interface Dates {
+
+  public static class Timer {
+    private final long startTime = System.currentTimeMillis();
+
+    private long stepStartTime = this.startTime;
+
+    private Timer() {
+
+    }
+
+    public void printStep(final String message) {
+      this.stepStartTime = printEllapsedTime(message, this.stepStartTime);
+
+    }
+
+    public void printTotal(final String message) {
+      printEllapsedTime(message, this.startTime);
+    }
+  }
+
   public static final ZoneId UTC = ZoneId.of("UTC");
 
   Pattern DATE_TIME_NANOS_PATTERN = Pattern.compile(
@@ -494,6 +514,10 @@ public interface Dates {
     final long endTime = System.currentTimeMillis();
     System.out.println(message + "\t" + toEllapsedTime(startTime, endTime));
     return endTime;
+  }
+
+  public static Timer timer() {
+    return new Timer();
   }
 
   @SuppressWarnings("deprecation")

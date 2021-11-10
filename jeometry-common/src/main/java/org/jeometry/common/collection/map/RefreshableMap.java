@@ -14,4 +14,7 @@ public interface RefreshableMap<K, V> extends Refreshable, Map<K, V> {
     final boolean editable) {
     return new SupplierRefreshableMap<K1, T1>(supplier, editable);
   }
+
+  void clearValue();
+
 }

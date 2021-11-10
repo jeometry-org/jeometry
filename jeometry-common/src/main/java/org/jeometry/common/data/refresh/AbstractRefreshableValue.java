@@ -7,13 +7,16 @@ public abstract class AbstractRefreshableValue<V> implements RefreshableValue<V>
   private boolean valueLoaded;
 
   @Override
+  public synchronized void clearValue() {
+    this.valueLoaded = false;
+    this.value = null;
+  }
+
+  @Override
   public V getValue() {
-    V value = this.value;
+    final V value = this.value;
     if (!this.valueLoaded) {
-      synchronized (this) {
-        refresh();
-        value = this.value;
-      }
+      return this.refreshValueIfNeeded();
     }
     return value;
   }
@@ -21,15 +24,22 @@ public abstract class AbstractRefreshableValue<V> implements RefreshableValue<V>
   protected abstract V loadValue();
 
   @Override
-  public synchronized void refresh() {
-    this.value = loadValue();
-    this.valueLoaded = true;
+  public synchronized void refreshIfNeeded() {
+    refreshValueIfNeeded();
   }
 
   @Override
-  public synchronized void refreshIfNeeded() {
+  public synchronized V refreshValue() {
+    this.value = loadValue();
+    this.valueLoaded = true;
+    return this.value;
+  }
+
+  @Override
+  public synchronized V refreshValueIfNeeded() {
     if (!this.valueLoaded) {
       refresh();
     }
+    return this.value;
   }
 }

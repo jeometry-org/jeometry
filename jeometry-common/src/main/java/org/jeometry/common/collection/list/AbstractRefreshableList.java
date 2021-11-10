@@ -15,26 +15,32 @@ public abstract class AbstractRefreshableList<V> extends AbstractDelegatingList<
   }
 
   @Override
+  public synchronized void clearValue() {
+    this.valueLoaded = false;
+    this.list = Collections.emptyList();
+  }
+
+  @Override
   protected List<V> getList() {
-    List<V> map = this.list;
+    List<V> list = this.list;
     if (!this.valueLoaded) {
       synchronized (this) {
-        refresh();
-        map = this.list;
+        refreshIfNeeded();
+        list = this.list;
       }
     }
-    return map;
+    return list;
   }
 
   protected abstract List<V> loadValue();
 
   @Override
   public synchronized void refresh() {
-    final List<V> map = loadValue();
-    if (map == null) {
+    final List<V> list = loadValue();
+    if (list == null) {
       this.list = Collections.emptyList();
     } else {
-      this.list = map;
+      this.list = list;
     }
     this.valueLoaded = true;
   }
