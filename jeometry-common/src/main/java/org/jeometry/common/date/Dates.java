@@ -34,6 +34,10 @@ public interface Dates {
 
     private long stepStartTime = this.startTime;
 
+    private Timer() {
+
+    }
+
     public void printStep(final String message) {
       this.stepStartTime = printEllapsedTime(message, this.stepStartTime);
 

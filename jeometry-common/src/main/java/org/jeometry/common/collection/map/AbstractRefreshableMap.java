@@ -15,11 +15,17 @@ public abstract class AbstractRefreshableMap<K, V> extends AbstractDelegatingMap
   }
 
   @Override
+  public synchronized void clearValue() {
+    this.valueLoaded = false;
+    this.map = Collections.emptyMap();
+  }
+
+  @Override
   protected Map<K, V> getMap() {
     Map<K, V> map = this.map;
     if (!this.valueLoaded) {
       synchronized (this) {
-        refresh();
+        refreshIfNeeded();
         map = this.map;
       }
     }
