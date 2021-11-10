@@ -214,7 +214,12 @@ public interface Dates {
       final TemporalAccessor temporal = (TemporalAccessor)value;
       return Instant.from(temporal);
     } else {
-      return Instant.parse(value.toString());
+      final String string = value.toString();
+      if (string.charAt(4) == '-') {
+        return Instant.parse(string);
+      } else {
+        return Instant.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(string));
+      }
     }
   }
 
@@ -451,7 +456,7 @@ public interface Dates {
     if (dateString != null) {
       final Instant instant = Instant.parse(dateString);
       return Timestamp.from(instant);
-   } else {
+    } else {
       return null;
     }
   }
