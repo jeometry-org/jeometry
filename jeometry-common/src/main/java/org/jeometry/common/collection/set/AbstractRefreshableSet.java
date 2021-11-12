@@ -3,10 +3,16 @@ package org.jeometry.common.collection.set;
 import java.util.Collections;
 import java.util.Set;
 
+import org.jeometry.common.data.refresh.RefreshableValueHolder;
+import org.jeometry.common.data.refresh.SupplierRefreshableValueHolder;
+
 public abstract class AbstractRefreshableSet<V> extends AbstractDelegatingSet<V>
   implements RefreshableSet<V> {
 
-  private Set<V> set = Collections.emptySet();
+  private String label;
+
+  private final RefreshableValueHolder<Set<V>> value = new SupplierRefreshableValueHolder<Set<V>>(
+    this::loadValue);
 
   private boolean valueLoaded;
 
@@ -16,39 +22,53 @@ public abstract class AbstractRefreshableSet<V> extends AbstractDelegatingSet<V>
 
   @Override
   public synchronized void clearValue() {
-    this.valueLoaded = false;
-    this.set = Collections.emptySet();
+    this.value.clear();
+  }
+
+  @Override
+  public String getLabel() {
+    if (this.label == null) {
+      return toString();
+    } else {
+      return this.label;
+    }
   }
 
   @Override
   protected Set<V> getSet() {
-    Set<V> set = this.set;
-    if (!this.valueLoaded) {
-      synchronized (this) {
-        refreshIfNeeded();
-        set = this.set;
-      }
+    final Set<V> value = this.value.get();
+    if (value == null) {
+      return Collections.emptySet();
+    } else {
+      return value;
     }
-    return set;
   }
 
   protected abstract Set<V> loadValue();
 
   @Override
   public synchronized void refresh() {
-    final Set<V> set = loadValue();
-    if (set == null) {
-      this.set = Collections.emptySet();
-    } else {
-      this.set = set;
-    }
-    this.valueLoaded = true;
+    this.value.reload();
   }
 
   @Override
   public synchronized void refreshIfNeeded() {
-    if (!this.valueLoaded) {
-      refresh();
+    this.value.get();
+  }
+
+  public AbstractRefreshableSet<V> setLabel(final String label) {
+    this.label = label;
+    return this;
+  }
+
+  @Override
+  public String toString() {
+    if (this.value.isValueLoaded()) {
+      return this.value.toString();
+    } else if (this.label != null) {
+      return this.label;
+    } else {
+      return getClass().getName() + "@" + Integer.toHexString(hashCode());
     }
   }
 }

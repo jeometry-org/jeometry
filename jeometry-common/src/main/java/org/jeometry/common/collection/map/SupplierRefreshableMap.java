@@ -3,11 +3,11 @@ package org.jeometry.common.collection.map;
 import java.util.Map;
 import java.util.function.Supplier;
 
-class SupplierRefreshableMap<K, V> extends AbstractRefreshableMap<K, V> {
+public class SupplierRefreshableMap<K, V> extends AbstractRefreshableMap<K, V> {
 
   private final Supplier<Map<K, V>> supplier;
 
-  public SupplierRefreshableMap(final Supplier<Map<K, V>> supplier, final boolean editable) {
+  SupplierRefreshableMap(final Supplier<Map<K, V>> supplier, final boolean editable) {
     super(editable);
     this.supplier = supplier;
   }

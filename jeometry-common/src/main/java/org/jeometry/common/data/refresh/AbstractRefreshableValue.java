@@ -2,23 +2,27 @@ package org.jeometry.common.data.refresh;
 
 public abstract class AbstractRefreshableValue<V> implements RefreshableValue<V> {
 
-  private V value;
+  private RefreshableValueHolder<V> value = new SupplierRefreshableValueHolder<V>(this::loadValue);
 
-  private boolean valueLoaded;
+  private String label;
 
   @Override
   public synchronized void clearValue() {
-    this.valueLoaded = false;
-    this.value = null;
+    this.value.clear();
+  }
+
+  @Override
+  public String getLabel() {
+    if (this.label == null) {
+      return toString();
+    } else {
+      return this.label;
+    }
   }
 
   @Override
   public V getValue() {
-    final V value = this.value;
-    if (!this.valueLoaded) {
-      return this.refreshValueIfNeeded();
-    }
-    return value;
+    return this.value.get();
   }
 
   protected abstract V loadValue();
@@ -30,16 +34,32 @@ public abstract class AbstractRefreshableValue<V> implements RefreshableValue<V>
 
   @Override
   public synchronized V refreshValue() {
-    this.value = loadValue();
-    this.valueLoaded = true;
-    return this.value;
+    return this.value.reload();
   }
 
   @Override
   public synchronized V refreshValueIfNeeded() {
-    if (!this.valueLoaded) {
-      refresh();
+    return this.value.get();
+  }
+
+  public AbstractRefreshableValue<V> setLabel(final String label) {
+    this.label = label;
+    return this;
+  }
+
+  public AbstractRefreshableValue<V> setWeak() {
+    this.value = new SupplierWeakRefreshableValueHolder<>(this::loadValue);
+    return this;
+  }
+
+  @Override
+  public String toString() {
+    if (this.value.isValueLoaded()) {
+      return this.value.toString();
+    } else if (this.label != null) {
+      return this.label;
+    } else {
+      return getClass().getName() + "@" + Integer.toHexString(hashCode());
     }
-    return this.value;
   }
 }
