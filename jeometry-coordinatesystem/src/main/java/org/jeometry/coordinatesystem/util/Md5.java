@@ -2,8 +2,10 @@ package org.jeometry.coordinatesystem.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.DigestInputStream;
+import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -59,6 +61,12 @@ public class Md5 {
   public static String md5Hex(final String data) {
     final byte[] md5 = md5(data);
     return Hex.toHex(md5);
+  }
+
+  public static DigestOutputStream outputStream(final OutputStream out) {
+    final MessageDigest messageDigest = getMessageDigest();
+    return new DigestOutputStream(out, messageDigest);
+
   }
 
   public static void update(final MessageDigest digest, final double value) {
