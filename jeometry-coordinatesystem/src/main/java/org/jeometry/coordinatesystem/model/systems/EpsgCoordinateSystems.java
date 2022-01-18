@@ -97,37 +97,37 @@ public final class EpsgCoordinateSystems {
     }
   }
 
-  private static final HashMap<Integer, Area> AREA_BY_ID = new HashMap<>();
+  private static final Map<Integer, Area> AREA_BY_ID = new HashMap<>();
 
   private static final Map<String, AxisName> AXIS_NAME_BY_NAME = new HashMap<>();
 
-  private static final HashMap<Integer, AxisName> AXIS_NAMES = new HashMap<>();
+  private static final Map<Integer, AxisName> AXIS_NAMES = new HashMap<>();
 
-  private static final HashMap<Integer, CoordinateSystem> COORDINATE_SYSTEM_BY_ID = new HashMap<>();
+  private static final Map<Integer, CoordinateSystem> COORDINATE_SYSTEM_BY_ID = new HashMap<>();
 
   private static final Map<String, CoordinateSystem> COORDINATE_SYSTEM_BY_NAME = new TreeMap<>();
 
-  private static final HashMap<Integer, EpsgCoordinateSystemType> COORDINATE_SYSTEM_TYPE_BY_ID = new HashMap<>();
+  private static final Map<Integer, EpsgCoordinateSystemType> COORDINATE_SYSTEM_TYPE_BY_ID = new HashMap<>();
 
-  private static final HashMap<Integer, List<CoordinateSystem>> COORDINATE_SYSTEMS_BY_HASH_CODE = new HashMap<>();
+  private static final Map<Integer, List<CoordinateSystem>> COORDINATE_SYSTEMS_BY_HASH_CODE = new HashMap<>();
 
   private static Set<CoordinateSystem> coordinateSystems;
 
-  private static final HashMap<Integer, Datum> DATUM_BY_ID = new HashMap<>();
+  private static final Map<Integer, Datum> DATUM_BY_ID = new HashMap<>();
 
   private static boolean initialized = false;
 
   private static int nextSrid = 2000000;
 
-  private static final HashMap<Integer, CoordinateOperation> OPERATION_BY_ID = new HashMap<>();
+  private static final Map<Integer, CoordinateOperation> OPERATION_BY_ID = new HashMap<>();
 
-  private static final HashMap<Integer, ParameterName> PARAM_NAME_BY_ID = new HashMap<>();
+  private static final Map<Integer, ParameterName> PARAM_NAME_BY_ID = new HashMap<>();
 
-  private static final HashMap<Integer, PrimeMeridian> PRIME_MERIDIAN_BY_ID = new HashMap<>();;
+  private static final Map<Integer, PrimeMeridian> PRIME_MERIDIAN_BY_ID = new HashMap<>();;
 
   private static final EpsgSystemOfUnits SYSTEM_OF_UNITS = new EpsgSystemOfUnits();
 
-  private static final HashMap<Integer, UnitOfMeasure> UNIT_BY_ID = new HashMap<>();
+  private static final Map<Integer, UnitOfMeasure> UNIT_BY_ID = new HashMap<>();
 
   private static final Map<String, UnitOfMeasure> UNIT_BY_NAME = new TreeMap<>();
 
@@ -174,7 +174,7 @@ public final class EpsgCoordinateSystems {
     }
   }
 
-  private static <V> V getCode(final HashMap<Integer, V> valueById, final int id) {
+  private static <V> V getCode(final Map<Integer, V> valueById, final int id) {
     if (id == 0) {
       return null;
     } else {
@@ -446,17 +446,17 @@ public final class EpsgCoordinateSystems {
       try {
         loadUnitOfMeasure();
         loadCoordinateAxisNames();
-        final HashMap<Integer, List<Axis>> axisMap = loadCoordinateAxis();
+        final Map<Integer, List<Axis>> axisMap = loadCoordinateAxis();
         loadArea();
         loadPrimeMeridians();
         loadDatum();
         loadCoordOperationParam();
-        final HashMap<Integer, List<ParameterName>> paramOrderByMethodId = new HashMap<>();
-        final HashMap<Integer, List<Byte>> paramReversalByMethodId = new HashMap<>();
+        final Map<Integer, List<ParameterName>> paramOrderByMethodId = new HashMap<>();
+        final Map<Integer, List<Byte>> paramReversalByMethodId = new HashMap<>();
         loadCoordOperationParamUsage(paramOrderByMethodId, paramReversalByMethodId);
-        final HashMap<Integer, CoordinateOperationMethod> methodById = loadCoordOperationMethod(
+        final Map<Integer, CoordinateOperationMethod> methodById = loadCoordOperationMethod(
           paramOrderByMethodId, paramReversalByMethodId);
-        final HashMap<Integer, Map<ParameterName, ParameterValue>> operationParameters = new HashMap<>();
+        final Map<Integer, Map<ParameterName, ParameterValue>> operationParameters = new HashMap<>();
         loadCoordOperationParamValue(methodById, operationParameters, paramReversalByMethodId);
         loadCoordOperation(methodById, operationParameters, paramReversalByMethodId);
         loadCoordinateSystem();
@@ -501,8 +501,8 @@ public final class EpsgCoordinateSystems {
     }
   }
 
-  private static HashMap<Integer, List<Axis>> loadCoordinateAxis() {
-    final HashMap<Integer, List<Axis>> axisesByCoordinateSystemId = new HashMap<>();
+  private static Map<Integer, List<Axis>> loadCoordinateAxis() {
+    final Map<Integer, List<Axis>> axisesByCoordinateSystemId = new HashMap<>();
     try (
       DataInputStream reader = newDataInputStream("coordinateAxis")) {
       if (reader != null) {
@@ -548,7 +548,7 @@ public final class EpsgCoordinateSystems {
     }
   }
 
-  private static void loadCoordinateReferenceSystem(final HashMap<Integer, List<Axis>> axisMap) {
+  private static void loadCoordinateReferenceSystem(final Map<Integer, List<Axis>> axisMap) {
     try (
       DataInputStream reader = newDataInputStream("coordinateReferenceSystem")) {
       if (reader != null) {
@@ -636,10 +636,9 @@ public final class EpsgCoordinateSystems {
     }
   }
 
-  private static void loadCoordOperation(
-    final HashMap<Integer, CoordinateOperationMethod> methodById,
-    final HashMap<Integer, Map<ParameterName, ParameterValue>> operationParameters,
-    final HashMap<Integer, List<Byte>> paramReversal) {
+  private static void loadCoordOperation(final Map<Integer, CoordinateOperationMethod> methodById,
+    final Map<Integer, Map<ParameterName, ParameterValue>> operationParameters,
+    final Map<Integer, List<Byte>> paramReversal) {
     try (
       DataInputStream reader = newDataInputStream("coordOperation")) {
       if (reader != null) {
@@ -671,10 +670,10 @@ public final class EpsgCoordinateSystems {
     }
   }
 
-  private static HashMap<Integer, CoordinateOperationMethod> loadCoordOperationMethod(
-    final HashMap<Integer, List<ParameterName>> paramOrderByMethodId,
-    final HashMap<Integer, List<Byte>> paramReversalByMethodId) {
-    final HashMap<Integer, CoordinateOperationMethod> methodById = new HashMap<>();
+  private static Map<Integer, CoordinateOperationMethod> loadCoordOperationMethod(
+    final Map<Integer, List<ParameterName>> paramOrderByMethodId,
+    final Map<Integer, List<Byte>> paramReversalByMethodId) {
+    final Map<Integer, CoordinateOperationMethod> methodById = new HashMap<>();
 
     try (
       DataInputStream reader = newDataInputStream("coordOperationMethod")) {
@@ -723,8 +722,8 @@ public final class EpsgCoordinateSystems {
   }
 
   private static void loadCoordOperationParamUsage(
-    final HashMap<Integer, List<ParameterName>> paramOrderByMethodId,
-    final HashMap<Integer, List<Byte>> paramReversal) {
+    final Map<Integer, List<ParameterName>> paramOrderByMethodId,
+    final Map<Integer, List<Byte>> paramReversal) {
     try (
       DataInputStream reader = newDataInputStream("coordOperationParamUsage")) {
       if (reader != null) {
@@ -756,9 +755,9 @@ public final class EpsgCoordinateSystems {
   }
 
   private static void loadCoordOperationParamValue(
-    final HashMap<Integer, CoordinateOperationMethod> methodById,
-    final HashMap<Integer, Map<ParameterName, ParameterValue>> operationParameters,
-    final HashMap<Integer, List<Byte>> paramReversal) {
+    final Map<Integer, CoordinateOperationMethod> methodById,
+    final Map<Integer, Map<ParameterName, ParameterValue>> operationParameters,
+    final Map<Integer, List<Byte>> paramReversal) {
     try (
       DataInputStream reader = newDataInputStream("coordOperationParamValue")) {
       if (reader != null) {
@@ -804,7 +803,7 @@ public final class EpsgCoordinateSystems {
   }
 
   private static void loadDatum() {
-    final HashMap<Integer, Ellipsoid> ellipsoids = loadEllipsoid();
+    final Map<Integer, Ellipsoid> ellipsoids = loadEllipsoid();
 
     try (
       DataInputStream reader = newDataInputStream("datum")) {
@@ -841,8 +840,8 @@ public final class EpsgCoordinateSystems {
     }
   }
 
-  private static HashMap<Integer, Ellipsoid> loadEllipsoid() {
-    final HashMap<Integer, Ellipsoid> ellipsoids = new HashMap<>();
+  private static Map<Integer, Ellipsoid> loadEllipsoid() {
+    final Map<Integer, Ellipsoid> ellipsoids = new HashMap<>();
     try (
       DataInputStream reader = newDataInputStream("ellipsoid")) {
       if (reader != null) {
@@ -1021,7 +1020,7 @@ public final class EpsgCoordinateSystems {
     return reader.readByte() == (byte)1;
   }
 
-  private static <V> V readCode(final DataInputStream reader, final HashMap<Integer, V> valueById)
+  private static <V> V readCode(final DataInputStream reader, final Map<Integer, V> valueById)
     throws IOException {
     final int id = reader.readInt();
     return getCode(valueById, id);
