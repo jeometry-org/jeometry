@@ -101,6 +101,8 @@ public final class DataTypes {
 
   public static final DataType BYTE = new ByteDataType();
 
+  public static final DataType UBYTE = new UnsignedByteDataType();
+
   public static final ClobDataType CLOB = new ClobDataType();
 
   public static final DataType CODE = new CodeDataType();

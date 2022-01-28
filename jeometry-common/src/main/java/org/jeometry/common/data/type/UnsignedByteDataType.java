@@ -1,38 +1,38 @@
 package org.jeometry.common.data.type;
 
-public class ByteDataType extends AbstractDataType {
+public class UnsignedByteDataType extends AbstractDataType {
 
-  public ByteDataType() {
-    super("ubyte", Short.class, false);
+  public UnsignedByteDataType() {
+    super("byte", Byte.class, false);
   }
 
   @Override
   protected boolean equalsNotNull(final Object value1, final Object value2) {
-    return (short)value1 == (short)value2;
+    return (byte)value1 == (byte)value2;
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public <V> V getMaxValue() {
-    final Short max = 255;
+    final Byte max = Byte.MAX_VALUE;
     return (V)max;
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public <V> V getMinValue() {
-    final Short min = 0;
+    final Byte min = Byte.MIN_VALUE;
     return (V)min;
   }
 
   @Override
   protected Object toObjectDo(final Object value) {
     final String string = DataTypes.toString(value);
-    return Short.valueOf(string);
+    return Byte.valueOf(string);
   }
 
   @Override
   protected String toStringDo(final Object value) {
-    return String.valueOf((short)value);
+    return String.valueOf((byte)value);
   }
 }

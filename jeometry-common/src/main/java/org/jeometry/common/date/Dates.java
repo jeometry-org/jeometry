@@ -28,7 +28,6 @@ import org.jeometry.common.data.type.DataTypes;
 import org.jeometry.common.logging.Logs;
 
 public interface Dates {
-
   public static class Timer {
     private final long startTime = System.currentTimeMillis();
 
@@ -47,6 +46,10 @@ public interface Dates {
       printEllapsedTime(message, this.startTime);
     }
   }
+
+  DateTimeFormatter yyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+  DateTimeFormatter HHmmssSS = DateTimeFormatter.ofPattern("HHmmssSS");
 
   public static final ZoneId UTC = ZoneId.of("UTC");
 
@@ -108,6 +111,14 @@ public interface Dates {
     } else {
       final DateFormat format = new SimpleDateFormat(pattern);
       return format(format, date);
+    }
+  }
+
+  static String format(final String pattern, final TemporalAccessor date) {
+    if (date == null) {
+      return null;
+    } else {
+      return DateTimeFormatter.ofPattern(pattern).format(date);
     }
   }
 
