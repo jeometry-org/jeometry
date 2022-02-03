@@ -3,7 +3,7 @@ package org.jeometry.common.data.type;
 public class UnsignedByteDataType extends AbstractDataType {
 
   public UnsignedByteDataType() {
-    super("byte", Byte.class, false);
+    super("ubyte", Short.class, false);
   }
 
   @Override
@@ -14,21 +14,21 @@ public class UnsignedByteDataType extends AbstractDataType {
   @Override
   @SuppressWarnings("unchecked")
   public <V> V getMaxValue() {
-    final Byte max = Byte.MAX_VALUE;
+    final Short max = 255;
     return (V)max;
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public <V> V getMinValue() {
-    final Byte min = Byte.MIN_VALUE;
+    final Short min = 0;
     return (V)min;
   }
 
   @Override
   protected Object toObjectDo(final Object value) {
     final String string = DataTypes.toString(value);
-    return Byte.valueOf(string);
+    return Short.valueOf(string);
   }
 
   @Override
