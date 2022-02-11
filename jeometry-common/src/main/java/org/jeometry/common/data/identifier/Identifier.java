@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.UUID;
 
 import org.jeometry.common.compare.CompareUtil;
 import org.jeometry.common.data.type.DataTypes;
@@ -93,9 +94,16 @@ public interface Identifier {
     } else if (value instanceof Collection) {
       final Collection<?> idValues = (Collection<?>)value;
       return new ListIdentifier(idValues);
+    } else if (value instanceof UUID) {
+      final UUID id = (UUID)value;
+      return newIdentifier(id);
     } else {
       return new SingleIdentifier(value);
     }
+  }
+
+  static UuidIdentifier newIdentifier(final UUID id) {
+    return new UuidIdentifier(id);
   }
 
   static Identifier newInteger(final String id) {
