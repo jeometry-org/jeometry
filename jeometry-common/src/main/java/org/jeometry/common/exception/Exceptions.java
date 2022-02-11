@@ -17,6 +17,28 @@ public interface Exceptions {
     return false;
   }
 
+  static boolean hasMessage(Throwable e, String expected) {
+    do {
+      String message = e.getMessage();
+      if (message != null && message.equalsIgnoreCase(expected)) {
+        return true;
+      }
+      e = e.getCause();
+    } while (e != null);
+    return false;
+  }
+
+  static boolean hasMessagePart(Throwable e, String expected) {
+    do {
+      String message = e.getMessage();
+      if (message != null && message.toLowerCase().contains(expected)) {
+        return true;
+      }
+      e = e.getCause();
+    } while (e != null);
+    return false;
+  }
+
   static boolean isException(final Throwable e, final Class<? extends Throwable> clazz) {
     while (e != null) {
       if (e instanceof WrappedException) {
@@ -59,6 +81,19 @@ public interface Exceptions {
     final PrintWriter out = new PrintWriter(string);
     e.printStackTrace(out);
     return string.toString();
+  }
+
+  @SuppressWarnings("unchecked")
+  static <T extends Throwable> T unwrap(Exception e, Class<T> clazz) {
+    Throwable cause = e.getCause();
+    while (cause != null) {
+      if (clazz.isAssignableFrom(cause.getClass())) {
+        return (T)cause;
+      } else {
+        cause = e.getCause();
+      }
+    }
+    return null;
   }
 
   static Throwable unwrap(WrappedException e) {
