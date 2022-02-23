@@ -3,13 +3,18 @@ package org.jeometry.coordinatesystem.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
-import java.security.DigestInputStream;
-import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Md5 {
+
+  public static DigestReadableByteChannel channel(final ReadableByteChannel in) {
+    final MessageDigest messageDigest = getMessageDigest();
+    return new DigestReadableByteChannel(in, messageDigest);
+
+  }
 
   public static MessageDigest getMessageDigest() {
     try {
