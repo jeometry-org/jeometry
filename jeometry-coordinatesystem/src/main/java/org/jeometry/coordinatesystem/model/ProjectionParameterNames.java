@@ -16,7 +16,6 @@ public class ProjectionParameterNames {
     if (alias == null) {
       alias = name.intern();
       ALIASES.put(alias, alias);
-      // System.out.println(alias);
       return alias;
     } else {
       return alias;
