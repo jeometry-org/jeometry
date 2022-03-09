@@ -17,9 +17,9 @@ public interface Exceptions {
     return false;
   }
 
-  static boolean hasMessage(Throwable e, String expected) {
+  static boolean hasMessage(Throwable e, final String expected) {
     do {
-      String message = e.getMessage();
+      final String message = e.getMessage();
       if (message != null && message.equalsIgnoreCase(expected)) {
         return true;
       }
@@ -28,9 +28,9 @@ public interface Exceptions {
     return false;
   }
 
-  static boolean hasMessagePart(Throwable e, String expected) {
+  static boolean hasMessagePart(Throwable e, final String expected) {
     do {
-      String message = e.getMessage();
+      final String message = e.getMessage();
       if (message != null && message.toLowerCase().contains(expected)) {
         return true;
       }
@@ -51,6 +51,15 @@ public interface Exceptions {
       }
     }
     return false;
+  }
+
+  static String stackTraceToString(final Throwable e) {
+    final StringWriter stackTrace = new StringWriter();
+    try (
+      PrintWriter w = new PrintWriter(stackTrace)) {
+      e.printStackTrace(w);
+    }
+    return stackTrace.toString();
   }
 
   @SuppressWarnings("unchecked")
@@ -84,7 +93,7 @@ public interface Exceptions {
   }
 
   @SuppressWarnings("unchecked")
-  static <T extends Throwable> T unwrap(Exception e, Class<T> clazz) {
+  static <T extends Throwable> T unwrap(final Exception e, final Class<T> clazz) {
     Throwable cause = e.getCause();
     while (cause != null) {
       if (clazz.isAssignableFrom(cause.getClass())) {
