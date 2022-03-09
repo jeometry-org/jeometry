@@ -4,6 +4,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 public class CollectionDataType extends SimpleDataType {
 
@@ -31,6 +34,10 @@ public class CollectionDataType extends SimpleDataType {
         final Collection<Object> newCollection;
         if (Collection.class == javaClass) {
           newCollection = new ArrayList<>();
+        } else if (List.class == javaClass) {
+          newCollection = new ArrayList<>();
+        } else if (Set.class == javaClass) {
+          newCollection = new LinkedHashSet<>();
         } else {
           final Constructor<?> declaredConstructor = javaClass.getDeclaredConstructor();
           newCollection = (Collection)declaredConstructor.newInstance();
