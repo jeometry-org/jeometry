@@ -17,6 +17,12 @@ public class Logs {
 
   private static Map<String, Boolean> LOGGED_ERRORS = new LruMap<>(1000);
 
+  private static void addMessage(final Set<String> messages, final String message) {
+    if (message != null && message.length() > 0) {
+      messages.add(message);
+    }
+  }
+
   public static void debug(final Class<?> clazz, final String message) {
     final String name = clazz.getName();
     debug(name, message);
@@ -149,20 +155,10 @@ public class Logs {
     final String message, final Throwable e) {
     Throwable logException = e;
     final Set<String> messages = new LinkedHashSet<>();
-    if (message != null && message.length() > 0) {
-      messages.add(message);
-      messageText.append(message);
-    }
+    addMessage(messages, message);
     while (logException instanceof WrappedException) {
-      if (messageText.length() > 0) {
-        messageText.append('\n');
-      }
-      messageText.append(logException.getClass().getName());
-      messageText.append(": ");
       final String wrappedMessage = logException.getMessage();
-      if (messages.add(wrappedMessage)) {
-        messageText.append(wrappedMessage);
-      }
+      addMessage(messages, wrappedMessage);
       final Throwable cause = logException.getCause();
       if (cause == null) {
         break;
@@ -178,21 +174,25 @@ public class Logs {
       if (exceptionCount > 0) {
         logException = exceptions.remove(exceptionCount - 1);
         for (final Throwable throwable : exceptions) {
-          if (messageText.length() > 0) {
-            messageText.append('\n');
-          }
           if (throwable == sqlException) {
-            messageText.append(sqlException.getClass().getName());
-            messageText.append(": ");
+            messages.add(sqlException.getClass().getName());
             final String wrappedMessage = sqlException.getMessage();
-            if (messages.add(wrappedMessage)) {
-              messageText.append(wrappedMessage);
-            }
+            addMessage(messages, wrappedMessage);
           } else {
-            messageText.append(Exceptions.toString(throwable));
+            messages.add(Exceptions.toString(throwable));
           }
         }
       }
+    }
+    messages.remove(logException.getMessage());
+    boolean first = true;
+    for (final String m : messages) {
+      if (first) {
+        first = false;
+      } else {
+        messageText.append('\n');
+      }
+      messageText.append(m);
     }
     return logException;
   }
