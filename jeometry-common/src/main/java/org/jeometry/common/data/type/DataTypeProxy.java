@@ -40,4 +40,8 @@ public interface DataTypeProxy {
   }
 
   DataType getDataType();
+
+  default <V> V toObject(final Object value) {
+    return getDataType().toObject(value);
+  }
 }

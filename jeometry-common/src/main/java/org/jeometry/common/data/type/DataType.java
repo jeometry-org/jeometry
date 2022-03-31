@@ -2,6 +2,7 @@ package org.jeometry.common.data.type;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.Supplier;
 
 public interface DataType {
   static boolean equal(final Object object1, final Object object2) {
@@ -103,6 +104,20 @@ public interface DataType {
     } catch (final Exception e) {
       return false;
     }
+  }
+
+  default <V> DataTypeValueFactory<V> newFactory(final Supplier<V> supplier) {
+    return new DataTypeValueFactory<V>() {
+      @Override
+      public V get() {
+        return supplier.get();
+      }
+
+      @Override
+      public DataType getDataType() {
+        return DataType.this;
+      }
+    };
   }
 
   @SuppressWarnings("unchecked")
