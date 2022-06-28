@@ -2,7 +2,7 @@ package org.jeometry.common.io;
 
 import java.io.File;
 
-public interface FileProxy {
+public interface FileProxy extends FileNameProxy {
 
   File getFile();
 
