@@ -9,7 +9,7 @@
   <name>Jeometry.org</name>
   <version>MAIN-SNAPSHOT</version>
   <description>The parent module of the Jeometry.org Libraries.</description>
-  <url>http://revolsys.github.com/com.revolsys.open/</url>
+  <url>http://jeometry-org.github.io/jeometry/</url>
 
   <licenses>
     <license>
@@ -297,6 +297,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.3.0</version>
         <configuration>
+          <failOnError>false</failOnError>
           <detectLinks>true</detectLinks>
           <detectJavaApiLink>true</detectJavaApiLink>
           <doclint>none</doclint>
@@ -319,6 +320,18 @@
               <report>aggregate</report>
             </reports>
           </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.owasp</groupId>
+        <artifactId>dependency-check-maven</artifactId>
+        <version>7.2.1</version>
+        <reportSets>
+            <reportSet>
+                <reports>
+                    <report>aggregate</report>
+                </reports>
+            </reportSet>
         </reportSets>
       </plugin>
     </plugins>
