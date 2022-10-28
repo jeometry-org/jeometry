@@ -82,7 +82,11 @@ public class CompareUtil {
       }
       @SuppressWarnings("unchecked")
       final Comparable<Object> comparable = (Comparable<Object>)object1;
-      return comparable.compareTo(object2);
+      if (object1.getClass().isAssignableFrom(object2.getClass())) {
+        return comparable.compareTo(DataTypes.getDataType(object1).toObject(object2));
+      } else {
+        return object1.toString().compareTo(object2.toString());
+      }
     } else {
       return object1.toString().compareTo(object2.toString());
     }
