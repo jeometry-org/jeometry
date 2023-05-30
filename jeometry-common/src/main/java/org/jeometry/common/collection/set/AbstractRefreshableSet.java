@@ -6,6 +6,8 @@ import java.util.Set;
 import org.jeometry.common.data.refresh.RefreshableValueHolder;
 import org.jeometry.common.data.refresh.SupplierRefreshableValueHolder;
 
+import reactor.core.publisher.Mono;
+
 public abstract class AbstractRefreshableSet<V> extends AbstractDelegatingSet<V>
   implements RefreshableSet<V> {
 
@@ -54,6 +56,17 @@ public abstract class AbstractRefreshableSet<V> extends AbstractDelegatingSet<V>
   @Override
   public synchronized void refreshIfNeeded() {
     this.value.get();
+  }
+
+  public Mono<Boolean> refreshIfNeeded$() {
+    return Mono.fromCallable(() -> {
+      if (this.value.isValueLoaded()) {
+        return false;
+      } else {
+        this.value.get();
+        return true;
+      }
+    });
   }
 
   public AbstractRefreshableSet<V> setLabel(final String label) {
