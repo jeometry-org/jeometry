@@ -27,8 +27,8 @@ public class UuidIdentifier implements Identifier, Comparable<Object> {
       otherValue = object;
     }
     if (otherValue instanceof UUID) {
-      final UUID otherId = (UUID)otherValue;
-      return this.id.compareTo(otherId);
+      final UUID id = (UUID)otherValue;
+      return this.id.compareTo(id);
     } else {
       return this.id.toString().compareTo(otherValue.toString());
     }

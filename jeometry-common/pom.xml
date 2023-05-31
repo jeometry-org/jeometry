@@ -12,11 +12,27 @@
   <name>jeometry.org Common API</name>
   <url>http://maven.apache.org</url>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jeometry</groupId>
+        <artifactId>jeometry-bom</artifactId>
+        <version>${project.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
 
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.projectreactor</groupId>
+      <artifactId>reactor-core</artifactId>
     </dependency>
 
   </dependencies>

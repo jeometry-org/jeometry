@@ -9,7 +9,7 @@
   <name>Jeometry.org</name>
   <version>MAIN-SNAPSHOT</version>
   <description>The parent module of the Jeometry.org Libraries.</description>
-  <url>http://revolsys.github.com/com.revolsys.open/</url>
+  <url>http://jeometry-org.github.io/jeometry/</url>
 
   <licenses>
     <license>
@@ -43,6 +43,7 @@
     <url>https://github.com/jeometry-org/jeometry/issues</url>
   </issueManagement>
   <modules>
+    <module>jeometry-bom</module>
     <module>jeometry-common</module>
     <module>jeometry-coordinatesystem</module>
   </modules>
@@ -65,7 +66,7 @@
                   <version>3.8.1</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>11</version>
+                  <version>17</version>
                 </requireJavaVersion>
               </rules>
             </configuration>
@@ -83,7 +84,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <release>11</release>
+          <release>17</release>
           <debug>true</debug>
           <debuglevel>lines,source,vars</debuglevel>
           <parameters>true</parameters>
@@ -112,7 +113,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.0</version>
         <configuration>
           <archive>
             <manifestEntries>
@@ -297,6 +298,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.3.0</version>
         <configuration>
+          <failOnError>false</failOnError>
           <detectLinks>true</detectLinks>
           <detectJavaApiLink>true</detectJavaApiLink>
           <doclint>none</doclint>
@@ -321,39 +323,20 @@
           </reportSet>
         </reportSets>
       </plugin>
+      <plugin>
+        <groupId>org.owasp</groupId>
+        <artifactId>dependency-check-maven</artifactId>
+        <version>7.4.0</version>
+        <reportSets>
+            <reportSet>
+                <reports>
+                    <report>aggregate</report>
+                </reports>
+            </reportSet>
+        </reportSets>
+      </plugin>
     </plugins>
   </reporting>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>4.9.10</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>${org.slf4j.version}</version>
-        <exclusions>
-          <exclusion>
-            <artifactId>commons-logging</artifactId>
-            <groupId>commons-logging</groupId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${org.slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.2</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <distributionManagement>
     <repository>
@@ -365,7 +348,6 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <org.slf4j.version>1.7.36</org.slf4j.version>
     <gpg.skip>true</gpg.skip>
     <github.global.server>github</github.global.server>
     <skipTests>true</skipTests>
